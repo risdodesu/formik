@@ -4,10 +4,12 @@ import * as Yup from 'yup';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 const API_KEY = process.env.REACT_APP_API_KEY;
 const errorStyle = {color:"red", height:"20px"}
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false)
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
@@ -56,10 +58,11 @@ const LoginForm = () => {
                   .then(function (response){
                     const session_id = response.data.session_id;
                     if(session_id) {
+                      navigate('/profile')
                       // redirect ke halaman user profile/home/timeline
-                      alert("Berhasil login dengan session id : " + session_id)
-                      setIsLoading(false)
+                      localStorage.setItem('SID', session_id)
                     }
+                    setIsLoading(false)
                     // console.log(session_id)
                   })
                   .catch(function(error){
